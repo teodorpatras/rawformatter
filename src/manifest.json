@@ -1,0 +1,22 @@
+{
+  "name": "Raw Code Formatter",
+  "version": "1.0",
+  "description": "Raw Code Formatter in the Browser",
+  "manifest_version": 2,
+  "background": {
+    "scripts": ["background.js"],
+    "persistent": false
+  },
+  "icons": {
+    "128": "./img/rawformatter128.png"
+  },
+  "content_scripts": [
+    {
+      "all_frames": true,
+      "js": ["codemirror/codemirror.js", "codemirror/yaml.js", "content.js"],
+      "css": ["codemirror/codemirror.css"],
+      "matches": ["http://*/*", "https://*/*", "ftp://*/*", "file:///*"],
+      "run_at": "document_end"
+    }
+  ]
+}
