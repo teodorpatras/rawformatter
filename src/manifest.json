@@ -13,8 +13,28 @@
   "content_scripts": [
     {
       "all_frames": true,
-      "js": ["codemirror/codemirror.js", "codemirror/yaml.js", "content.js"],
-      "css": ["codemirror/codemirror.css"],
+      "js": [
+        "codemirror/codemirror.js",
+        "codemirror/addon/fold/foldcode.js",
+        "codemirror/addon/fold/indent-fold.js",
+        "codemirror/addon/fold/foldgutter.js",
+        "codemirror/addon/fold/brace-fold.js",
+        "codemirror/addon/fold/comment-fold.js",
+        "codemirror/addon/fold/markdown-fold.js",
+        "codemirror/addon/fold/xml-fold.js",
+        "codemirror/mode/yaml.js",
+        "codemirror/mode/python.js",
+        "codemirror/mode/jsx.js",
+        "codemirror/mode/javascript.js",
+        "codemirror/mode/xml.js",
+        "codemirror/mode/markdown.js",
+        "content.js"
+      ],
+      "css": [
+        "codemirror/codemirror.css",
+        "codemirror/addon/fold/foldgutter.css",
+        "codemirror/theme/neo.css"
+      ],
       "matches": ["http://*/*", "https://*/*", "ftp://*/*", "file:///*"],
       "run_at": "document_end"
     }
