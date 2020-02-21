@@ -49,18 +49,28 @@ const getMode = () => {
   return null;
 };
 
+const getTheme = () => {
+  if (
+    window.matchMedia &&
+    window.matchMedia("(prefers-color-scheme: dark)").matches
+  ) {
+    return "material";
+  }
+  return "neo";
+};
+
 const mode = getMode();
 
 if (mode && document.body.childNodes.length === 1) {
   const config = {
+    theme: getTheme(),
     value: document.body.firstChild.textContent,
     lineNumbers: true,
     foldGutter: true,
     lineWrapping: true,
     readOnly: true,
-    scrollbarStyle: null,
-    gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter"],
-    theme: "neo"
+    scrollbarStyle: "overlay",
+    gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter"]
   };
 
   window.codeMirror = CodeMirror(document.body, {
@@ -68,6 +78,7 @@ if (mode && document.body.childNodes.length === 1) {
     ...config
   });
   document.body.firstChild.remove();
-  document.body.firstChild.style.height = "100vh";
+  document.body.firstChild.style.height = "100%";
+  document.body.firstChild.style.width = "100%";
   document.getElementsByClassName("CodeMirror-scroll")[0].scrollTop = 5;
 }

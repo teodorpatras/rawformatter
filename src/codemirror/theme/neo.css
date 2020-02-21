@@ -2,6 +2,10 @@
 
 /* Color scheme */
 
+body {
+  background: #ffffff;
+}
+
 .cm-s-neo.CodeMirror {
   background-color: #ffffff;
   color: #2e383c;

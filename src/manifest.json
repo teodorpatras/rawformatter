@@ -28,12 +28,15 @@
         "codemirror/mode/javascript.js",
         "codemirror/mode/xml.js",
         "codemirror/mode/markdown.js",
+        "codemirror/addon/scroll/simplescrollbars.js",
         "content.js"
       ],
       "css": [
         "codemirror/codemirror.css",
         "codemirror/addon/fold/foldgutter.css",
-        "codemirror/theme/neo.css"
+        "codemirror/theme/neo.css",
+        "codemirror/theme/material.css",
+        "codemirror/addon/scroll/scrollbars.css"
       ],
       "matches": ["http://*/*", "https://*/*", "ftp://*/*", "file:///*"],
       "run_at": "document_end"
