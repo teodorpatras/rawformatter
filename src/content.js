@@ -54,16 +54,17 @@ const getTheme = () => {
     window.matchMedia &&
     window.matchMedia("(prefers-color-scheme: dark)").matches
   ) {
-    return "material";
+    return { theme: "material", color: "#263238" };
   }
-  return "neo";
+  return { theme: "neo", color: "#ffffff;" };
 };
 
 const mode = getMode();
 
 if (mode && document.body.childNodes.length === 1) {
+  const { theme, color } = getTheme();
   const config = {
-    theme: getTheme(),
+    theme,
     value: document.body.firstChild.textContent,
     lineNumbers: true,
     foldGutter: true,
@@ -78,6 +79,7 @@ if (mode && document.body.childNodes.length === 1) {
     ...config
   });
   document.body.firstChild.remove();
+  document.body.style.background = color;
   document.body.firstChild.style.height = "100%";
   document.body.firstChild.style.width = "100%";
   document.getElementsByClassName("CodeMirror-scroll")[0].scrollTop = 5;
