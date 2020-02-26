@@ -1,4 +1,33 @@
-const parseURL = url => {
+"use strict";
+
+const GITHUB = "github.com";
+
+/**
+ * Returns the supported codemirror modes.
+ *
+ * @return {Object} Supported modes.
+ */
+function getSupportedModes() {
+  const modes = {
+    yaml: ["yaml", "yml"],
+    python: ["py"],
+    javascript: ["js", "ts", "json"],
+    jsx: ["jsx"],
+    json: ["json"],
+    xml: ["xml"],
+    markdown: ["markdown", "md"]
+  };
+}
+
+/**
+ * Parses the url and returns its components.
+ *
+ * @param  {string} url to be parsed.
+ *
+ * @return {object} url components.
+ *
+ */
+function parseURL(url) {
   const parser = document.createElement("a");
   const searchObject = {};
   // Let the browser do the work
@@ -19,9 +48,17 @@ const parseURL = url => {
     searchObject: searchObject,
     hash: parser.hash
   };
-};
+}
 
-const getMode = () => {
+/**
+ * Returns the supported mode config or null if not supported.
+ *
+ * @param  {string} pathname as returned by the parsed url object.
+ *
+ * @return {string | object | null} supported url config.
+ *
+ */
+function getConfigFromPath(path) {
   const modes = {
     yaml: ["yaml", "yml"],
     python: ["py"],
@@ -32,9 +69,8 @@ const getMode = () => {
     markdown: ["markdown", "md"]
   };
 
-  const { pathname } = parseURL(document.location.href);
-  const extension = /[.]/.exec(pathname)
-    ? /[^.]+$/.exec(pathname)[0].toLowerCase()
+  const extension = /[.]/.exec(path)
+    ? /[^.]+$/.exec(path)[0].toLowerCase()
     : null;
 
   for (const mode in modes) {
@@ -47,9 +83,17 @@ const getMode = () => {
     }
   }
   return null;
-};
+}
 
-const getTheme = () => {
+/**
+ * Returns the mirror theme based on os dark/light color theme.
+ *
+ * @param  {string} pathname as returned by the parsed url object.
+ *
+ * @return {string | object | null} supported url config.
+ *
+ */
+function getTheme() {
   if (
     window.matchMedia &&
     window.matchMedia("(prefers-color-scheme: dark)").matches
@@ -57,30 +101,4 @@ const getTheme = () => {
     return { theme: "material", color: "#263238" };
   }
   return { theme: "neo", color: "#ffffff;" };
-};
-
-const mode = getMode();
-
-if (mode && document.body.childNodes.length === 1) {
-  const { theme, color } = getTheme();
-  const config = {
-    theme,
-    value: document.body.firstChild.textContent,
-    lineNumbers: true,
-    foldGutter: true,
-    lineWrapping: true,
-    readOnly: true,
-    scrollbarStyle: "overlay",
-    gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter"]
-  };
-
-  window.codeMirror = CodeMirror(document.body, {
-    mode,
-    ...config
-  });
-  document.body.firstChild.remove();
-  document.body.style.background = color;
-  document.body.firstChild.style.height = "100%";
-  document.body.firstChild.style.width = "100%";
-  document.getElementsByClassName("CodeMirror-scroll")[0].scrollTop = 5;
 }

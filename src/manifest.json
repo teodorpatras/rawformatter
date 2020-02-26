@@ -4,7 +4,7 @@
   "description": "Raw Code Formatter in the Browser",
   "manifest_version": 2,
   "background": {
-    "scripts": ["background.js"],
+    "scripts": ["hot-reload.js", "js/raw.js", "js/background.js"],
     "persistent": false
   },
   "icons": {
@@ -29,7 +29,8 @@
         "codemirror/mode/xml.js",
         "codemirror/mode/markdown.js",
         "codemirror/addon/scroll/simplescrollbars.js",
-        "content.js"
+        "js/raw.js",
+        "js/content.js"
       ],
       "css": [
         "codemirror/codemirror.css",
