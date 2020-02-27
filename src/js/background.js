@@ -1,8 +1,6 @@
-"use strict";
-
-chrome.runtime.onInstalled.addListener(function() {
-  const menu = chrome.contextMenus.create({
-    title: "Open raw formatted (if supported)",
+chrome.runtime.onInstalled.addListener(() => {
+  chrome.contextMenus.create({
+    title: "Open raw formatted ❐",
     contexts: ["page", "link"],
     id: "openrawformatted"
   });

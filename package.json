@@ -1,0 +1,39 @@
+{
+  "name": "rawformatter",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:teodorpatras/rawformatter.git",
+  "author": "Teo <teodor.patras@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "build": "gulp",
+    "precommit": "lint-staged"
+  },
+  "lint-staged": {
+    "src/**/*.js": "eslint",
+    "src/**/*.{js,jsx,json,css,md}": [
+      "prettier --config ./.prettierrc --write './**/*.js'",
+      "git add"
+    ]
+  },
+  "devDependencies": {
+    "@babel/core": "^7.8.4",
+    "@babel/preset-env": "^7.8.4",
+    "@babel/plugin-transform-regenerator": "^7.8.3",
+    "del": "^5.1.0",
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb": "^18.0.1",
+    "eslint-config-prettier": "^6.10.0",
+    "eslint-plugin-import": "^2.20.1",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-prettier": "^3.1.2",
+    "gulp": "^4.0.2",
+    "gulp-babel": "^8.0.0",
+    "gulp-clean-css": "^4.2.0",
+    "gulp-eslint": "^6.0.0",
+    "gulp-json-editor": "^2.5.4",
+    "gulp-uglify": "^3.0.2",
+    "gulp-zip": "^5.0.1",
+    "lint-staged": "^10.0.8"
+  }
+}

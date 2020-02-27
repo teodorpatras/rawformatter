@@ -1,5 +1,3 @@
-"use strict";
-
 const GITHUB = "github.com";
 
 /**
@@ -8,7 +6,7 @@ const GITHUB = "github.com";
  * @return {Object} Supported modes.
  */
 function getSupportedModes() {
-  const modes = {
+  return {
     yaml: ["yaml", "yml"],
     python: ["py"],
     javascript: ["js", "ts", "json"],
@@ -34,8 +32,9 @@ function parseURL(url) {
   parser.href = url;
   // Convert query string to object
   const queries = parser.search.replace(/^\?/, "").split("&");
-  for (let i = 0; i < queries.length; i++) {
+  for (let i = 0; i < queries.length; i += 1) {
     const split = queries[i].split("=");
+    // eslint-disable-next-line
     searchObject[split[0]] = split[1];
   }
   return {
@@ -45,7 +44,7 @@ function parseURL(url) {
     port: parser.port,
     pathname: parser.pathname,
     search: parser.search,
-    searchObject: searchObject,
+    searchObject,
     hash: parser.hash
   };
 }
@@ -59,30 +58,23 @@ function parseURL(url) {
  *
  */
 function getConfigFromPath(path) {
-  const modes = {
-    yaml: ["yaml", "yml"],
-    python: ["py"],
-    javascript: ["js", "ts", "json"],
-    jsx: ["jsx"],
-    json: ["json"],
-    xml: ["xml"],
-    markdown: ["markdown", "md"]
-  };
+  const modes = getSupportedModes();
 
   const extension = /[.]/.exec(path)
     ? /[^.]+$/.exec(path)[0].toLowerCase()
     : null;
 
-  for (const mode in modes) {
+  let config = null;
+  Object.keys(modes).forEach(mode => {
     if (modes[mode].includes(extension)) {
       if (extension === "json") {
         // special setting for json
-        return { name: "javascript", json: true };
+        config = { name: "javascript", json: true };
       }
-      return mode;
+      config = mode;
     }
-  }
-  return null;
+  });
+  return config;
 }
 
 /**
@@ -102,3 +94,13 @@ function getTheme() {
   }
   return { theme: "neo", color: "#ffffff;" };
 }
+
+try {
+  module.exports = {
+    GITHUB,
+    getSupportedModes,
+    parseURL,
+    getConfigFromPath,
+    getTheme
+  };
+} catch (_) {}
