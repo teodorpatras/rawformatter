@@ -64,16 +64,9 @@ function getConfigFromPath(path) {
     ? /[^.]+$/.exec(path)[0].toLowerCase()
     : null;
 
-  let config = null;
-  Object.keys(modes).forEach(mode => {
-    if (modes[mode].includes(extension)) {
-      if (extension === "json") {
-        // special setting for json
-        config = { name: "javascript", json: true };
-      }
-      config = mode;
-    }
-  });
+  const [config] = Object.keys(modes).filter(mode =>
+    modes[mode].includes(extension)
+  );
   return config;
 }
 
