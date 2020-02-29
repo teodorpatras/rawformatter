@@ -3,14 +3,17 @@ const del = require("del");
 const zip = require("gulp-zip");
 const jeditor = require("gulp-json-editor");
 const babel = require("gulp-babel");
-const cleanCSS = require("gulp-clean-css");
 const eslint = require("gulp-eslint");
 const uglify = require("gulp-uglify");
 const manifest = require("./src/manifest");
 
 const { series } = gulp;
-const withoutHotReload = scripts =>
-  scripts.filter(s => !s.includes("hot-reload"));
+const forProduction = scripts => {
+  const cleaned = scripts.filter(
+    s => !s.includes("hot-reload") && !s.includes("development")
+  );
+  return ["config/production.js", ...cleaned];
+};
 
 gulp.task("cleanDist", () => del("dist/**", { force: true }));
 
@@ -25,7 +28,7 @@ gulp.task("copyManifest", () =>
           if (key === "background") {
             result[key] = json[key];
             const { scripts } = json[key];
-            result[key].scripts = withoutHotReload(scripts);
+            result[key].scripts = forProduction(scripts);
           }
         });
         return result;
@@ -36,6 +39,10 @@ gulp.task("copyManifest", () =>
 
 gulp.task("copyCodeMirror", () =>
   gulp.src("src/codemirror/**").pipe(gulp.dest("dist/build/codemirror"))
+);
+
+gulp.task("copyConfig", () =>
+  gulp.src("src/config/production.js").pipe(gulp.dest("dist/build/config"))
 );
 
 gulp.task("copyImg", () =>
@@ -66,7 +73,7 @@ gulp.task("uglify", () =>
 );
 
 gulp.task("zipAll", () => {
-  const distFileName = `${manifest.name}v${manifest.version}.zip`;
+  const distFileName = `${manifest.name}-v${manifest.version}.zip`;
   return gulp
     .src(["dist/build/**"])
     .pipe(zip(distFileName))
@@ -77,6 +84,7 @@ const tasks = [
   "cleanDist",
   "eslint",
   "uglify",
+  "copyConfig",
   "copyImg",
   "copyCodeMirror",
   "copyManifest",

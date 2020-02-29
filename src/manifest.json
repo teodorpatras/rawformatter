@@ -4,11 +4,20 @@
   "description": "Raw Code Formatter in the Browser",
   "manifest_version": 2,
   "background": {
-    "scripts": ["hot-reload.js", "js/raw.js", "js/background.js"],
+    "scripts": [
+      "hot-reload.js",
+      "config/development.js",
+      "js/analytics.js",
+      "js/raw.js",
+      "js/background.js"
+    ],
     "persistent": false
   },
   "icons": {
-    "128": "./img/rawformatter128.png"
+    "128": "img/rawformatter128.png",
+    "48": "img/rawformatter48.png",
+    "32": "img/rawformatter32.png",
+    "16": "img/rawformatter16.png"
   },
   "content_scripts": [
     {
@@ -43,5 +52,10 @@
       "run_at": "document_end"
     }
   ],
-  "permissions": ["contextMenus", "tabs"]
+  "content_security_policy": "script-src 'self' 'unsafe-eval' https://www.google-analytics.com; connect-src https://www.google-analytics.com; object-src 'self'",
+  "permissions": [
+    "https://www.google-analytics.com/",
+    "background",
+    "contextMenus"
+  ]
 }
