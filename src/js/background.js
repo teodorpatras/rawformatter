@@ -1,5 +1,3 @@
-console.log("Reloaded!");
-
 const EVENTS = {
   SESSION: {
     INSTALL: "INSTALL",
@@ -43,18 +41,21 @@ chrome.contextMenus.onClicked.addListener(itemData => {
     "Context menu clicked!"
   );
   const { linkUrl } = itemData;
-  if (linkUrl) {
-    const { host, pathname } = parseURL(linkUrl);
-    if (host === GITHUB) {
-      const mode = getConfigFromPath(pathname);
-      if (mode && linkUrl.indexOf("/blob/") !== -1) {
-        chrome.tabs.getSelected(null, ({ index }) => {
-          chrome.tabs.create({
-            url: linkUrl.replace("/blob/", "/raw/"),
-            index: index + 1
-          });
-        });
-      }
-    }
+  if (!linkUrl) {
+    return;
   }
+  const { host, pathname } = parseURL(linkUrl);
+  if (host !== GITHUB) {
+    return;
+  }
+  const mode = getConfigFromPath(pathname);
+  if (!mode || linkUrl.indexOf("/blob/") === -1) {
+    return;
+  }
+  chrome.tabs.getSelected(null, ({ index }) => {
+    chrome.tabs.create({
+      url: linkUrl.replace("/blob/", "/raw/"),
+      index: index + 1
+    });
+  });
 });
