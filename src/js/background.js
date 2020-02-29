@@ -1,5 +1,3 @@
-console.log("Reloaded!");
-
 const EVENTS = {
   SESSION: {
     INSTALL: "INSTALL",
