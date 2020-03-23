@@ -11,7 +11,6 @@ function getSupportedModes() {
     python: ["py"],
     javascript: ["js", "ts", "json"],
     jsx: ["jsx"],
-    json: ["json"],
     xml: ["xml"],
     markdown: ["markdown", "md"]
   };

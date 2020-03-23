@@ -5,7 +5,7 @@ const { pathname } = parseURL(href);
 const modeConfig = getConfigFromPath(pathname);
 const themeConfig = getTheme();
 
-if (modeConfig && document.body.childNodes.length === 1) {
+if (!window.codeMirror && modeConfig && document.body.childNodes.length === 1) {
   const config = {
     theme: themeConfig.theme,
     value: document.body.firstChild.textContent,
